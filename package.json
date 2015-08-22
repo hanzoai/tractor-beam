@@ -1,0 +1,29 @@
+{
+  "name": "tractor-beam",
+  "version": "1.0.0",
+  "description": "Directory upload using proposed Directory Upload spec as part of the new FileSystem API.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/crowdstart/tractor-beam.git"
+  },
+  "keywords": [
+    "tractor",
+    "html5",
+    "filesystem",
+    "upload"
+  ],
+  "author": "CrowdStart, LLC",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/crowdstart/tractor-beam/issues"
+  },
+  "homepage": "https://github.com/crowdstart/tractor-beam",
+  "devDependencies": {
+  },
+  "dependencies": {
+  }
+}
