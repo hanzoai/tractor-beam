@@ -36,9 +36,9 @@ class TractorBeam extends EventEmitter
           else
             @options.postPath
 
-        # For the PoC
         # TODO: Actually upload the file
-        console.log file
+
+      @queue = []
 
   change: ->
     # bail if API is unsupported
