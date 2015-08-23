@@ -17,10 +17,12 @@
     <script src="tractor_beam.js">
     </script>
     <script type="text/javascript">
-      var TractorBeam = require('tractor-beam.js');
-      var tb = new TractorBeam('div.tractor-beam', {
-        postPath: 'http://localhost/'
-      });
+      (function(){
+        var TractorBeam = require('./tractor_beam');
+        var tb = new TractorBeam('div.tractor-beam', {
+          postPath: 'http://localhost/'
+        });
+      })();
     </script>
   </body>
 </html>
