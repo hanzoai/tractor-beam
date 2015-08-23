@@ -1,4 +1,4 @@
-require '../lib/polyfill.js'
+require '../vendor/polyfill'
 
 EventEmitter = require 'event-emitter'
 
