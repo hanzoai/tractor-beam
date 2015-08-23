@@ -44,6 +44,7 @@
   "dependencies": {
     "card": "^1.0.0",
     "crowdstart.js": "0.0.5",
+    "event-emitter": "^0.3.3",
     "riot": "^2.0.15"
   }
 }
