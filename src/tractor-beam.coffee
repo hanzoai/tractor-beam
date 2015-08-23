@@ -7,6 +7,8 @@ class TractorBeam extends EventEmitter
   # a function that takes an object with a path and returns
   # a path to which TractorBeam can post.
   constructor: (@selector, @options = {}) ->
+    super
+
     # find element
     @el = document.querySelector @selector
 
@@ -15,8 +17,6 @@ class TractorBeam extends EventEmitter
 
     # bind events
     @bind()
-
-    super
 
   bind: ->
     # handle DOM events
