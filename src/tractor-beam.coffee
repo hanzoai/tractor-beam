@@ -1,6 +1,5 @@
-require '../vendor/polyfill'
-
 EventEmitter = require './event-emitter'
+require './vendor/polyfill'
 
 class TractorBeam extends EventEmitter
   # `options` should have a `postPath` for upload to work
@@ -16,6 +15,8 @@ class TractorBeam extends EventEmitter
 
     # bind events
     @bind()
+
+    super
 
   bind: ->
     # handle DOM events
