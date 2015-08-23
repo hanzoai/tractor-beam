@@ -1,6 +1,6 @@
 require '../vendor/polyfill'
 
-EventEmitter = require 'event-emitter'
+EventEmitter = require './event-emitter'
 
 class TractorBeam extends EventEmitter
   # `options` should have a `postPath` for upload to work
@@ -8,8 +8,6 @@ class TractorBeam extends EventEmitter
   # a function that takes an object with a path and returns
   # a path to which TractorBeam can post.
   constructor: (@selector, @options = {}) ->
-    @options.type ?= 'fileinput'
-
     # find element
     @el = document.querySelector @selector
 
