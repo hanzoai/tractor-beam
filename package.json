@@ -41,6 +41,5 @@
     "uglify-js": "^2.4.23",
     "webdriverio": "^3.1.0"
   },
-  "dependencies": {
-  }
+  "dependencies": {}
 }
