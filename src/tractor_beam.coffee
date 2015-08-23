@@ -59,16 +59,18 @@ class TractorBeam
   dragHover: (e) ->
     e.stopPropagation()
     e.preventDefault()
-    if e.type == 'dragover'
-      e.target.className = 'over'
-    else
-      e.target.className = ''
     return
 
   drop: (e) ->
     e.stopPropagation()
     e.preventDefault()
-    e.target.className = ''
+
+    return unless e.dataTransfer.getFilesAndDirectories?
+
+    e.dataTransfer.getFilesAndDirectories()
+      .then (filesAndDirs) =>
+        console.log filesAndDirs
+        @iterateFilesAndDirs filesAndDirs, '/'
 
   iterateFilesAndDirs: (filesAndDirs, path) ->
     if filesAndDirs.length == 0
