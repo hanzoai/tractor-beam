@@ -2,7 +2,7 @@ require '../lib/polyfill.js'
 
 EventEmitter = require 'event-emitter'
 
-class TractorBeam extends EventEmitter
+class TractorBeam
   # `options` should have a `postPath` for upload to work
   # `postPath` should either be a constant string or
   # a function that takes an object with a path and returns
@@ -13,11 +13,13 @@ class TractorBeam extends EventEmitter
     # find element
     @el = document.querySelector @selector
 
-    # bind events
-    @bind()
+    @emitter = new EventEmitter
 
     # queue to store events
     @queue = []
+
+    # bind events
+    @bind()
 
   bind: ->
     # handle DOM events
@@ -27,7 +29,7 @@ class TractorBeam extends EventEmitter
     @el.addEventListener 'drop',      @drop
 
     # handle upload event
-    @on 'upload', (queue) ->
+    @emitter.on 'upload', (queue) ->
       return if not @options.postPath?
 
       for file in queue
@@ -37,7 +39,7 @@ class TractorBeam extends EventEmitter
           else
             @options.postPath
 
-        # for the PoC
+        # For the PoC
         # TODO: Actually upload the file
         console.log file
 
@@ -70,7 +72,7 @@ class TractorBeam extends EventEmitter
 
   iterateFilesAndDirs: (filesAndDirs, path) ->
     if filesAndDirs.length == 0
-      @emit 'upload', @queue
+      @emitter.emit 'upload', @queue
       return
 
     for fd in filesAndDirs
@@ -86,7 +88,7 @@ class TractorBeam extends EventEmitter
         file =
           fd: fd
           path: path
-        @emit 'file', file
+        @emitter.emit 'file', file
         @queue.push file
 
 module.exports = TractorBeam
