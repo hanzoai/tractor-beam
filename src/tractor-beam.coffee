@@ -72,7 +72,7 @@ class TractorBeam extends EventEmitter
 
   iterateFilesAndDirs: (filesAndDirs, path) ->
     if filesAndDirs.length == 0
-      @emitter.emit 'upload', @queue
+      @emit 'upload', @queue
       return
 
     for fd in filesAndDirs
@@ -88,7 +88,7 @@ class TractorBeam extends EventEmitter
         file =
           fd: fd
           path: path
-        @emitter.emit 'file', file
+        @emit 'file', file
         @queue.push file
 
 module.exports = TractorBeam
