@@ -2,7 +2,7 @@ require '../vendor/polyfill'
 
 EventEmitter = require 'event-emitter'
 
-class TractorBeam
+class TractorBeam extends EventEmitter
   # `options` should have a `postPath` for upload to work
   # `postPath` should either be a constant string or
   # a function that takes an object with a path and returns
@@ -13,8 +13,6 @@ class TractorBeam
     # find element
     @el = document.querySelector @selector
 
-    @emitter = new EventEmitter
-
     # queue to store events
     @queue = []
 
@@ -23,13 +21,13 @@ class TractorBeam
 
   bind: ->
     # handle DOM events
-    @el.addEventListener 'change',    @change
-    @el.addEventListener 'dragleave', @dragHover
-    @el.addEventListener 'dragover',  @dragHover
-    @el.addEventListener 'drop',      @drop
+    @el.addEventListener 'change',    (e) => @change e
+    @el.addEventListener 'dragleave', (e) => @dragHover e
+    @el.addEventListener 'dragover',  (e) => @dragHover e
+    @el.addEventListener 'drop',      (e) => @drop e
 
     # handle upload event
-    @emitter.on 'upload', (queue) ->
+    @on 'upload', (queue) ->
       return if not @options.postPath?
 
       for file in queue
@@ -50,11 +48,9 @@ class TractorBeam
     # clear queue
     @queue = []
 
-    self = @
-
     # begin by traversing the chosen files and directories
     @getFilesAndDirectories().then (filesAndDirs) =>
-      self.iterateFilesAndDirs filesAndDirs, '/'
+      @iterateFilesAndDirs filesAndDirs, '/'
       return
     return
 
@@ -69,12 +65,10 @@ class TractorBeam
 
     return unless e.dataTransfer.getFilesAndDirectories?
 
-    self = @
-
     e.dataTransfer.getFilesAndDirectories()
       .then (filesAndDirs) =>
         console.log filesAndDirs
-        self.iterateFilesAndDirs filesAndDirs, '/'
+        @iterateFilesAndDirs filesAndDirs, '/'
 
   iterateFilesAndDirs: (filesAndDirs, path) ->
     if filesAndDirs.length == 0
