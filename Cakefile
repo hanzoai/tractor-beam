@@ -6,7 +6,9 @@ option '-v', '--verbose',               'Enable verbose logging for tests'
 
 task 'build', 'Build module and bundle tractor_beam.js', ->
   exec 'node_modules/.bin/coffee -bcm -o lib/ src/'
-  exec 'node_modules/.bin/requisite src/tractor-beam.coffee -g -o tractor-beam.js'
+  exec 'node_modules/.bin/bebop'
+
+task 'build-min', 'Build minified module', ->
   exec 'node_modules/.bin/requisite src/tractor-beam.coffee -m -o tractor-beam.min.js'
 
 task 'watch', 'watch for changes and recompile', ->
