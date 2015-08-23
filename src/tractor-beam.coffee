@@ -50,9 +50,11 @@ class TractorBeam
     # clear queue
     @queue = []
 
+    self = @
+
     # begin by traversing the chosen files and directories
     @getFilesAndDirectories().then (filesAndDirs) =>
-      @iterateFilesAndDirs filesAndDirs, '/'
+      self.iterateFilesAndDirs filesAndDirs, '/'
       return
     return
 
@@ -67,10 +69,12 @@ class TractorBeam
 
     return unless e.dataTransfer.getFilesAndDirectories?
 
+    self = @
+
     e.dataTransfer.getFilesAndDirectories()
       .then (filesAndDirs) =>
         console.log filesAndDirs
-        @iterateFilesAndDirs filesAndDirs, '/'
+        self.iterateFilesAndDirs filesAndDirs, '/'
 
   iterateFilesAndDirs: (filesAndDirs, path) ->
     if filesAndDirs.length == 0
