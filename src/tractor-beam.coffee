@@ -1,4 +1,5 @@
 EventEmitter = require './event-emitter'
+xhr = require 'xhr'
 require './vendor/polyfill'
 
 class TractorBeam extends EventEmitter
@@ -26,7 +27,7 @@ class TractorBeam extends EventEmitter
     @el.addEventListener 'drop',      (e) => @drop e
 
     # handle upload event
-    @on 'upload', (queue) ->
+    @on 'added', (queue) ->
       return if not @options.postPath?
 
       for file in queue
@@ -36,9 +37,9 @@ class TractorBeam extends EventEmitter
           else
             @options.postPath
 
-        # For the PoC
         # TODO: Actually upload the file
-        console.log file
+
+      @queue = []
 
   change: ->
     # bail if API is unsupported
@@ -50,13 +51,10 @@ class TractorBeam extends EventEmitter
     # begin by traversing the chosen files and directories
     @getFilesAndDirectories().then (filesAndDirs) =>
       @iterateFilesAndDirs filesAndDirs, '/'
-      return
-    return
 
   dragHover: (e) ->
     e.stopPropagation()
     e.preventDefault()
-    return
 
   drop: (e) ->
     e.stopPropagation()
@@ -71,7 +69,7 @@ class TractorBeam extends EventEmitter
 
   iterateFilesAndDirs: (filesAndDirs, path) ->
     if filesAndDirs.length == 0
-      @emit 'upload', @queue
+      @emit 'added', @queue
       return
 
     for fd in filesAndDirs
