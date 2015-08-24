@@ -51,13 +51,10 @@ class TractorBeam extends EventEmitter
     # begin by traversing the chosen files and directories
     @getFilesAndDirectories().then (filesAndDirs) =>
       @iterateFilesAndDirs filesAndDirs, '/'
-      return
-    return
 
   dragHover: (e) ->
     e.stopPropagation()
     e.preventDefault()
-    return
 
   drop: (e) ->
     e.stopPropagation()
