@@ -3,3 +3,5 @@ phantomjsdriver.log
 selenium-server-standalone-2.45.0.jar
 BrowserStackLocal*
 lib
+npm-debug.log
+.test
