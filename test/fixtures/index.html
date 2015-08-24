@@ -1,109 +1,42 @@
 <!doctype html>
 <html>
   <head>
-    <style>
-      .tractor-beam {
-        width: 100px;
-        height: 100px;
-        background-color: #000;
-      }
-    </style>
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css">
+    <link rel="stylesheet" type="text/css" href="index.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
   </head>
   <body>
     <!-- File upload drop zone -->
-    <div class="tractor-beam"></div>
-    <!-- Upload queue file list -->
-    <div class="file-list">
+    <div class="container">
+      <div class="tractor-beam">
+        <h2 class="tractor-beam-heading">
+          Drop a folder here
+        </h2>
+      </div>
+
+      <div class="file-list">
+        <ul class="files">
+          <li class="file" beam-path="x">
+            <span class="path">
+              /tmp
+            </span>
+            <a href="#" class="add fa fa-plus-circle hidden"></a>
+            <a href="#" class="skip fa fa-minus-circle"></a>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Upload queue file list -->
+      <!-- Button to trigger upload -->
+      <div class="upload-button button button-primary" style="text-align:right;">
+        Upload
+      </div>
+      <!-- Progress bar -->
+      <div class="progress hidden"></div>
     </div>
-    <!-- Button to trigger upload -->
-    <div class="upload-button"></div>
-    <!-- Progress bar -->
-    <div class="progress hidden"></div>
 
     <script src="tractor-beam.js"></script>
-    <script type="text/javascript">
-      var TractorBeam = require('./tractor-beam', {});
-
-      // Instantiate an instance of TractorBeam
-      var beam = new TractorBeam('div.tractor-beam');
-
-      // Update file list when new files dropped
-      beam.on('added', function(files) {
-        // Render files however
-        var $fileList = $('.file-list');
-        files.forEach(function(file) {
-          var ele = document.createElement('div');
-          ele.setAttribute('beam-path', file.path);
-          ele.className = 'file';
-          $fileList.append(ele);
-        });
-      });
-
-      // Trigger upload on click
-      $('.upload-button').click(function() {
-        function resetFileEle($file) {
-          $file.removeClass();
-          $file.addClass('file');
-        }
-
-        function getFileEle(file) {
-          // filepath
-          if (typeof file === 'string') {
-            return $('div.file[beam-path=' + file + ']');
-          } else {
-            // file object
-            return $('div.file[beam-path=' + file.path + ']');
-          }
-        }
-
-        function getFilePath(ele) {
-          ele.getAttribute('beam-path');
-        }
-
-        var $progress = $('.progress');
-        $progress.removeClass('hidden');
-
-        // Start upload
-        beam.upload({});
-
-        // Update file-list as they are uploaded
-        beam.on('upload-started', function(file) {
-          var $file = getFileEle(file)
-          resetFileEle($file);
-          $file.addClass('uploading')
-        });
-
-        beam.on('upload-completed', function(file) {
-          var $file = getFileEle(file);
-          resetFileEle($file);
-          $file.addClass('uploaded');
-        })
-
-        // Show progress in progress bar
-        beam.on('progress', function(file) {
-          var $file = getFileEle(file);
-          resetFileEle($file);
-
-          // Set individual file progress
-          $file.select('.file-progress')
-            .text(file.progress.toString);
-
-          var totalProgress = beam.progress;
-          $progress.width(totalProgress);
-        });
-      });
-
-      // Remove file on click
-      $('.file .remove').click(function() {
-        // Remove single entry from queue
-        var filepath = getFilePath(this);
-        beam.remove(filepath);
-      });
-
-      $('.file .skip').click(function() {
-        var filepath = getFilePath(this);
-        beam.skip(filepath);
-      });
-    </script>
+    <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script src="index.js"></script>
   </body>
 </html>
