@@ -1,4 +1,5 @@
 EventEmitter = require './event-emitter'
+xhr = require 'xhr'
 require './vendor/polyfill'
 
 class TractorBeam extends EventEmitter
@@ -26,7 +27,7 @@ class TractorBeam extends EventEmitter
     @el.addEventListener 'drop',      (e) => @drop e
 
     # handle upload event
-    @on 'upload', (queue) ->
+    @on 'added', (queue) ->
       return if not @options.postPath?
 
       for file in queue
@@ -71,7 +72,7 @@ class TractorBeam extends EventEmitter
 
   iterateFilesAndDirs: (filesAndDirs, path) ->
     if filesAndDirs.length == 0
-      @emit 'upload', @queue
+      @emit 'added', @queue
       return
 
     for fd in filesAndDirs

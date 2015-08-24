@@ -1,0 +1,64 @@
+<!doctype html>
+<html>
+  <head>
+    <style>
+      .tractor-beam {
+        width: 100px;
+        height: 100px;
+        background-color: #000;
+      }
+    </style>
+  </head>
+  <body>
+
+    <!-- File upload drop zone -->
+    <div class="tractor-beam"></div>
+    <!-- Upload queue file list -->
+    <div class="file-list"></div>
+    <!-- Button to trigger upload -->
+    <div class="upload-button"></div>
+    <!-- Progress bar -->
+    <div class="progress"></div>
+
+    <script src="tractor-beam.js"></script>
+    <script type="text/javascript">
+      var TractorBeam = require('./tractor-beam', {});
+
+      // Instantiate an instance of TractorBeam
+      var beam = new TractorBeam('div.tractor-beam');
+
+      // Update file list when new files dropped
+      beam.on('dropped', function(files) {
+        // Render files however
+      })
+
+      // Trigger upload on click
+      $('.upload-button').click(function() {
+
+        // Start upload
+        beam.upload({})
+
+        // Update file-list as they are uploaded
+        beam.on('upload', function(file) {
+          // Update file in file list
+          // You could:
+          // 1. Remove from list
+          // 2. Mark as uploaded
+          // 3. Grey out, etc
+        })
+
+        // Show progress in progress bar
+        beam.on('progress', function(file, progress) {
+
+        })
+      })
+
+      // Remove file on click
+      $('.file-list > span.remove').click(function() {
+        // Remove single entry from queue
+        // var file = ???;
+        beam.skip(file)
+      })
+    </script>
+  </body>
+</html>

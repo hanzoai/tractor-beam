@@ -39,7 +39,8 @@
     "serve-static": "^1.10.0",
     "shortcake": "^0.2.3",
     "uglify-js": "^2.4.23",
-    "webdriverio": "^3.1.0"
+    "webdriverio": "^3.1.0",
+    "xhr": "^2.0.4"
   },
   "dependencies": {}
 }
