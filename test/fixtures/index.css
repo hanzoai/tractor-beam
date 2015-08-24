@@ -1,0 +1,58 @@
+.tractor-beam {
+  min-width: 500px;
+  min-height: 100px;
+  border-color: #34bfed;
+  border-width: 3px;
+  border-style: dashed;
+  margin-bottom: 1%;
+}
+
+.tractor-beam-heading {
+  margin-left: 35%;
+  margin-top: 2%;
+}
+
+.files {
+  margin-left: 5%;
+}
+
+.hidden {
+  display: none;
+}
+
+.tooltip {
+  display: none;
+}
+.tooltip:hover {
+  display: inline;
+}
+.tooltip:after{
+    content:'';
+    display:block;
+    width:0;
+    height:0;
+    position:absolute;
+
+    border-top: 8px solid transparent;
+    border-bottom: 8px solid transparent;
+    border-right:8px solid black;
+    left:-8px;
+
+    top:7px;
+}
+
+.fa {
+  text-decoration: none;
+}
+
+.removed {
+  text-decoration: line-through;
+}
+
+.path {
+  margin-right: 3%;
+}
+
+li {
+  list-style: none;
+}

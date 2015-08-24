@@ -27,7 +27,7 @@ class TractorBeam extends EventEmitter
     @el.addEventListener 'drop',      (e) => @drop e
 
     # handle upload event
-    @on 'added', (queue) ->
+    @on 'dropped', (queue) ->
       return if not @options.postPath?
 
       for file in queue
@@ -69,7 +69,7 @@ class TractorBeam extends EventEmitter
 
   iterateFilesAndDirs: (filesAndDirs, path) ->
     if filesAndDirs.length == 0
-      @emit 'added', @queue
+      @emit 'dropped', @queue
       return
 
     for fd in filesAndDirs
