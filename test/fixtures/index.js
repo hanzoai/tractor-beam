@@ -6,6 +6,7 @@ var beam = new TractorBeam('div.tractor-beam');
 // Update file list when new files dropped
 $files = $('.files')
 
+// Inserts an li into the .files list
 function insertFile(file) {
   var ele = document.createElement('li');
   ele.setAttribute('beam-path', file.path);
@@ -13,7 +14,7 @@ function insertFile(file) {
 
   var path = document.createElement('span');
   path.className = 'path';
-  path.text.innerHTML = file.path;
+  $(path).text(file.path);
 
   var add = document.createElement('a');
   path.className = 'add fa fa-plus-circle hidden';
@@ -53,6 +54,7 @@ function insertFile(file) {
 
 beam.on('dropped', function(files) {
   // Render files
+  console.log('completed');
   files.forEach(insertFile);
 });
 

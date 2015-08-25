@@ -60,7 +60,9 @@ class TractorBeam extends EventEmitter
     e.stopPropagation()
     e.preventDefault()
 
-    return unless e.dataTransfer.getFilesAndDirectories?
+    if not e.dataTransfer.getFilesAndDirectories?
+      console.log 'Unsupported in this browser'
+      return
 
     e.dataTransfer.getFilesAndDirectories()
       .then (filesAndDirs) =>
@@ -84,8 +86,25 @@ class TractorBeam extends EventEmitter
       else
         file =
           fd: fd
-          path: path
+          directory: path
+          name: fd.name
+          path: path + fd.name
+          removed: false
         @emit 'file', file
         @queue.push file
+
+  add: (filepath) ->
+    for i in @queue.length
+      if @queue[i].filepath == filepath
+        @queue[i].removed = false
+        return true
+    return false
+
+  remove: (filepath) ->
+    for i in @queue.length
+      if @queue[i].filepath == filepath
+        @queue[i].removed = true
+        return true
+    return false
 
 module.exports = TractorBeam
