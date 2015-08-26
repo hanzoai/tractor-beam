@@ -1,6 +1,15 @@
 EventEmitter = require './event-emitter'
-xhr = require 'xhr'
-require './vendor/polyfill'
+xhr          = require 'xhr'
+
+require './vendor/polyfill' # required for side-effect
+
+class File
+  constructor: (fd, path) ->
+    @fd        = fd
+    @directory = path
+    @name      = fd.name
+    @path      = path + '/' + fd.name
+    @skipped   = false
 
 class TractorBeam extends EventEmitter
   # `options` should have a `postPath` for upload to work
@@ -14,7 +23,7 @@ class TractorBeam extends EventEmitter
     @el = document.querySelector @selector
 
     # queue to store events
-    @queue = []
+    @queue = {}
 
     # bind events
     @bind()
@@ -26,27 +35,21 @@ class TractorBeam extends EventEmitter
     @el.addEventListener 'dragover',  (e) => @dragHover e
     @el.addEventListener 'drop',      (e) => @drop e
 
-    # handle upload event
-    @on 'dropped', (queue) ->
-      return if not @options.postPath?
+    # # handle upload event
+    # @on 'dropped', (queue) ->
+    #   return if not @options.postPath?
 
-      for file in queue
-        postPath =
-          if typeof @options.postPath == 'function'
-            @options.postPath file
-          else
-            @options.postPath
-
-        # TODO: Actually upload the file
-
-      @queue = []
+    #   for file in queue
+    #     postPath =
+    #       if typeof @options.postPath == 'function'
+    #         @options.postPath file
+    #       else
+    #         @options.postPath
+    #     @upload file postPath
 
   change: ->
     # bail if API is unsupported
     return unless @getFilesAndDirectories?
-
-    # clear queue
-    @queue = []
 
     # begin by traversing the chosen files and directories
     @getFilesAndDirectories().then (filesAndDirs) =>
@@ -61,21 +64,20 @@ class TractorBeam extends EventEmitter
     e.preventDefault()
 
     if not e.dataTransfer.getFilesAndDirectories?
-      console.log 'Unsupported in this browser'
+      @emit 'unsupported'
+      console.error 'Directory drag and drop is unsupported by this browser'
       return
 
     e.dataTransfer.getFilesAndDirectories()
       .then (filesAndDirs) =>
-        console.log filesAndDirs
         @iterateFilesAndDirs filesAndDirs, '/'
 
   iterateFilesAndDirs: (filesAndDirs, path) ->
-    if filesAndDirs.length == 0
-      @emit 'dropped', @queue
-      return
+    done = true
 
     for fd in filesAndDirs
       if typeof fd.getFilesAndDirectories == 'function'
+        done = false
         path = fd.path
 
         # this recursion enables deep traversal of directories
@@ -84,27 +86,24 @@ class TractorBeam extends EventEmitter
           @iterateFilesAndDirs subFilesAndDirs, path
           return
       else
-        file =
-          fd: fd
-          directory: path
-          name: fd.name
-          path: path + fd.name
-          removed: false
+        file = new File fd, path
         @emit 'file', file
-        @queue.push file
+        @queue[file.path] = file
+
+    if done
+      @emit 'dropped', @queue
 
   add: (filepath) ->
-    for i in @queue.length
-      if @queue[i].filepath == filepath
-        @queue[i].removed = false
-        return true
-    return false
+    @queue[filepath].skipped = false
+    @
 
   remove: (filepath) ->
-    for i in @queue.length
-      if @queue[i].filepath == filepath
-        @queue[i].removed = true
-        return true
-    return false
+    file = @queue[filepath]
+    delete @queue[filepath]
+    file
+
+  skip: (filepath) ->
+    @queue[filepath].skipped = true
+    @
 
 module.exports = TractorBeam

@@ -14,10 +14,11 @@
 
 .files {
   margin-left: 5%;
+  margin-right: 5%;
 }
 
 .hidden {
-  display: none;
+  display: none !important;
 }
 
 .tooltip {
@@ -45,8 +46,9 @@
   text-decoration: none;
 }
 
-.removed {
+.skipped {
   text-decoration: line-through;
+  color: red;
 }
 
 .path {
@@ -55,4 +57,14 @@
 
 li {
   list-style: none;
+}
+
+.skip {
+  font-size: 1.2em !important;
+  float: right;
+}
+
+.add {
+  font-size: 1.2em !important;
+  float: right;
 }
