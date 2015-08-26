@@ -8,64 +8,76 @@ $files = $('.files')
 
 // Inserts an li into the .files list
 function insertFile(file) {
-  var ele = document.createElement('li');
-  ele.setAttribute('beam-path', file.path);
-  ele.className = 'file';
+  console.log('inserting ' + file.path);
+  var el = document.createElement('li');
+  el.setAttribute('beam-path', file.path);
+  el.className = 'file';
 
   var path = document.createElement('span');
   path.className = 'path';
   $(path).text(file.path);
 
   var add = document.createElement('a');
-  path.className = 'add fa fa-plus-circle hidden';
-  path.setAttribute('href', '#');
+  add.className = 'add fa fa-plus-circle hidden';
+  add.setAttribute('href', '#');
 
-  var remove = document.createElement('a');
-  remove.className = 'remove fa fa-minus-circle';
-  remove.setAttribute('href', '#');
+  var skip = document.createElement('a');
+  skip.className = 'skip fa fa-minus-circle';
+  skip.setAttribute('href', '#');
 
-  var $ele = $(ele);
-  $ele.append(path);
-  $ele.append(add)
-  $ele.append(remove);
+  // var remove = document.createElement('a');
+  // remove.className = 'remove fa fa-times';
+  // remove.setAttribute('href', '#');
+
+  var $el = $(el);
+  $el.append(path);
+  $el.append(add)
+  $el.append(skip);
+  // $el.append(remove);
 
   $(add).click(function() {
     var $this = $(this);
-    var $parent = $this.parent();
-    $parent.select('.path').removeClass('removed');
-    $parent.select('.add').addClass('hidden');
+    $this.siblings('.path').removeClass('skipped');
     $this.addClass('hidden');
+    $this.siblings('.skip').removeClass('hidden');
 
-    beam.add($parent.attr('beam-path'));
+    beam.add(file.path);
   });
 
-  $(remove).click(function() {
+  $(skip).click(function() {
     var $this = $(this);
-    var $parent = $this.parent();
-    $parent.select('.path').addClass('removed');
-    $parent.select('.add').removeClass('hidden');
+    $this.siblings('.path').addClass('skipped');
     $this.addClass('hidden');
+    $this.siblings('.add').removeClass('hidden');
 
-    beam.remove($parent.attr('beam-path'));
+    beam.skip(file.path);
   });
 
-  $files.append(ele);
+  // $(remove).click(function() {
+  //   $(this).parent().remove();
+  //   beam.remove(file.path);
+  // });
+
+  $files.append(el);
 }
 
 beam.on('dropped', function(files) {
   // Render files
-  console.log('completed');
-  files.forEach(insertFile);
+  console.log('dropped', files);
+  for (var filepath in files) {
+    console.log(filepath);
+    insertFile(files[filepath]);
+  }
 });
 
 // Trigger upload on click
 $('.upload-button').click(function() {
-  function resetFileEle($file) {
+  function resetFileEl($file) {
     $file.removeClass();
     $file.addClass('file');
   }
 
-  function getFileEle(file) {
+  function getFileEl(file) {
     // filepath
     if (typeof file === 'string') {
       return $('div.file[beam-path=' + file + ']');
@@ -75,8 +87,8 @@ $('.upload-button').click(function() {
     }
   }
 
-  function getFilePath(ele) {
-    ele.getAttribute('beam-path');
+  function getFilePath(el) {
+    el.getAttribute('beam-path');
   }
 
   var $progress = $('.progress');
@@ -87,21 +99,21 @@ $('.upload-button').click(function() {
 
   // Update file-list as they are uploaded
   beam.on('upload-started', function(file) {
-    var $file = getFileEle(file)
-    resetFileEle($file);
+    var $file = getFileEl(file)
+    resetFileEl($file);
     $file.addClass('uploading')
   });
 
   beam.on('upload-completed', function(file) {
-    var $file = getFileEle(file);
-    resetFileEle($file);
+    var $file = getFileEl(file);
+    resetFileEl($file);
     $file.addClass('uploaded');
   });
 
   // Show progress in progress bar
   beam.on('progress', function(file) {
-    var $file = getFileEle(file);
-    resetFileEle($file);
+    var $file = getFileEl(file);
+    resetFileEl($file);
 
     // Set individual file progress
     $file.select('.file-progress')
