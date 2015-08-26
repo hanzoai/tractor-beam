@@ -1,72 +1,50 @@
-var TractorBeam = require('./tractor-beam', {});
+var TractorBeam = require('./tractor-beam');
 
-// Instantiate an instance of TractorBeam
 var beam = new TractorBeam('div.tractor-beam');
 
 // Update file list when new files dropped
-$files = $('.files')
+var $files = $('.files');
+
+var template = $("#file-template").html();
 
 // Inserts an li into the .files list
-function insertFile(file) {
-  console.log('inserting ' + file.path);
-  var el = document.createElement('li');
-  el.setAttribute('beam-path', file.path);
-  el.className = 'file';
+function renderFile(file) {
+  // render template
+  var $el = $(template.replace(/filepath/, file.path));
 
-  var path = document.createElement('span');
-  path.className = 'path';
-  $(path).text(file.path);
+  // bind event handlers
+  var $add  = $el.find('.add'),
+      $skip = $el.find('.skip'),
+      $path = $el.find('.path');
 
-  var add = document.createElement('a');
-  add.className = 'add fa fa-plus-circle hidden';
-  add.setAttribute('href', '#');
+  $add.click(function() {
+    $path.removeClass('skipped');
+    $add.addClass('hidden');
+    $skip.removeClass('hidden');
 
-  var skip = document.createElement('a');
-  skip.className = 'skip fa fa-minus-circle';
-  skip.setAttribute('href', '#');
-
-  // var remove = document.createElement('a');
-  // remove.className = 'remove fa fa-times';
-  // remove.setAttribute('href', '#');
-
-  var $el = $(el);
-  $el.append(path);
-  $el.append(add)
-  $el.append(skip);
-  // $el.append(remove);
-
-  $(add).click(function() {
-    var $this = $(this);
-    $this.siblings('.path').removeClass('skipped');
-    $this.addClass('hidden');
-    $this.siblings('.skip').removeClass('hidden');
-
+    // Mark file for upload
     beam.add(file.path);
   });
 
-  $(skip).click(function() {
-    var $this = $(this);
-    $this.siblings('.path').addClass('skipped');
-    $this.addClass('hidden');
-    $this.siblings('.add').removeClass('hidden');
+  $skip.click(function() {
+    $path.addClass('skipped');
+    $skip.addClass('hidden');
+    $add.removeClass('hidden');
 
+    // Skip file for upload
     beam.skip(file.path);
   });
 
-  // $(remove).click(function() {
-  //   $(this).parent().remove();
-  //   beam.remove(file.path);
-  // });
-
-  $files.append(el);
+  $files.append($el);
 }
 
 beam.on('dropped', function(files) {
-  // Render files
-  console.log('dropped', files);
+  // Clear previously rendered files
+  $files.empty();
+
+  // Render file list
   for (var filepath in files) {
-    console.log(filepath);
-    insertFile(files[filepath]);
+    renderFile(files[filepath]);
   }
 });
 
