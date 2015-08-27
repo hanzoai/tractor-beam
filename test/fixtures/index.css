@@ -1,3 +1,9 @@
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .tractor-beam {
   min-width: 500px;
   min-height: 100px;
