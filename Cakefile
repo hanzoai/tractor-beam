@@ -69,8 +69,6 @@ task 'test', 'Run tests', (options) ->
       process.exit 0
 
 task 'test-ci', 'Run tests on CI server', ->
-  process.exit 0 # Disable for now
-
   invoke 'static-server'
 
   browsers = require './test/ci-config'
