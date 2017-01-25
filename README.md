@@ -1,4 +1,6 @@
 # tractor-beam
+
+[![Greenkeeper badge](https://badges.greenkeeper.io/hanzo-io/tractor-beam.svg)](https://greenkeeper.io/)
 Directory upload using proposed Directory Upload spec as part of the new
 FileSystem API.
 
