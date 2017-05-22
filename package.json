@@ -28,19 +28,16 @@
     "bebop": "^1.3.8",
     "browser-sync": "^2.7.6",
     "browserstacktunnel-wrapper": "^1.4.0",
-    "cake": "^0.1.1",
-    "chai": "^3.1.0",
     "coffee-script": "^1.9.3",
     "connect": "^3.4.0",
-    "executive": "^0.5.0",
-    "mocha": "^2.2.5",
-    "requisite": "^1.9.16",
+    "sake-bundle": "^0.6.0",
+    "sake-cli": "^0.5.20",
+    "sake-outdated": "^0.1.27",
+    "sake-publish": "^0.1.16",
+    "sake-version": "^0.1.19",
     "selenium-standalone": "^4.5.3",
     "serve-static": "^1.10.0",
-    "shortcake": "^0.2.3",
-    "uglify-js": "^2.4.23",
-    "webdriverio": "^3.1.0",
-    "xhr": "^2.0.4"
+    "webdriverio": "^3.1.0"
   },
   "dependencies": {}
 }

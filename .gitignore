@@ -5,3 +5,4 @@ BrowserStackLocal*
 lib
 npm-debug.log
 .test
+.sake
