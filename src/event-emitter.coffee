@@ -1,4 +1,4 @@
-class EventEmitter
+export default class EventEmitter
   constructor: (opts = {}) ->
     @debug         = opts.debug ? false
     @_listeners    = {}
@@ -39,5 +39,3 @@ class EventEmitter
 
     if @debug
       console.log.apply console, args
-
-module.exports = EventEmitter

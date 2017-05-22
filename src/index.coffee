@@ -1,7 +1,5 @@
-EventEmitter = require './event-emitter'
-xhr          = require 'xhr'
-
-require './vendor/polyfill' # required for side-effect
+import EventEmitter from  './event-emitter'
+import polyfill     from './polyfill'
 
 class File
   constructor: (fd, path) ->
@@ -12,12 +10,14 @@ class File
     @skipped   = false
 
 class TractorBeam extends EventEmitter
-  # `options` should have a `postPath` for upload to work
+  # `opts` should have a `postPath` for upload to work
   # `postPath` should either be a constant string or
   # a function that takes an object with a path and returns
   # a path to which TractorBeam can post.
-  constructor: (@selector, @options = {}) ->
+  constructor: (@selector, @opts = {}) ->
     super
+
+    polyfill() unless @opts.polyfill == false
 
     # find element
     @el = document.querySelector @selector
@@ -37,14 +37,14 @@ class TractorBeam extends EventEmitter
 
     # # handle upload event
     # @on 'dropped', (queue) ->
-    #   return if not @options.postPath?
+    #   return if not @opts.postPath?
 
     #   for file in queue
     #     postPath =
-    #       if typeof @options.postPath == 'function'
-    #         @options.postPath file
+    #       if typeof @opts.postPath == 'function'
+    #         @opts.postPath file
     #       else
-    #         @options.postPath
+    #         @opts.postPath
     #     @upload file postPath
 
   change: ->
@@ -106,4 +106,4 @@ class TractorBeam extends EventEmitter
     @queue[filepath].skipped = true
     @
 
-module.exports = TractorBeam
+export default TractorBeam

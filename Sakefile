@@ -8,12 +8,27 @@ option '-s', '--external-selenium',     'Use external selenium'
 option '-v', '--verbose',               'Enable verbose logging for tests'
 
 task 'build', 'Build module and bundle tractor_beam.js', ->
-  exec.parallel [
-    'coffee -bcm -o lib/ src/'
-    'bebop compile'
+  b = new Bundle
+    entry: 'src/index.coffee'
+    compilers:
+      coffee:
+        version: 1
+
+  Promise.all [
+    # ES module (for bundlers)
+    b.write format: 'es'
+
+    # Node.js
+    b.write format:   'cjs'
+
+    # Browser (single file)
+    b.write
+      format:    'web'
+      sourceMap: false
   ]
 
-task 'build-min', 'Build minified module', ->
+task 'build:min', 'Build minified module', ['build'], ->
+  exec 'uglifyjs tractorbeam.js -o tractorbeam.min.js'
 
 task 'watch', 'watch for changes and recompile', ->
   exec 'bebop'
