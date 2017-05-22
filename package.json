@@ -4,6 +4,7 @@
   "description": "Directory upload using proposed Directory Upload spec as part of the new FileSystem API.",
   "main": "lib/tractor-beam.js",
   "module": "lib/tractor-beam.mjs",
+  "browser": "tractor-beam.js",
   "files": [
     "lib",
     "src"
@@ -35,7 +36,6 @@
   "dependencies": {},
   "devDependencies": {
     "bebop": "^1.12.5",
-    "browser-sync": "^2.18.12",
     "browserstacktunnel-wrapper": "^2.0.0",
     "coffee-script": "^1.12.6",
     "connect": "^3.6.2",
