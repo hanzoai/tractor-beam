@@ -12,6 +12,9 @@
         <h2 class="tractor-beam-heading">
           Drop a folder here
         </h2>
+        <center>
+          <input type="file" id="file-input" multiple directory webkitdirectory allowdirs/>
+        </center>
       </div>
 
       <div class="file-list">
@@ -30,8 +33,8 @@
       <div class="progress hidden"></div>
     </div>
 
-    <script src="tractor-beam.js"></script>
     <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script src="tractorbeam.js"></script>
 
     <script id="file-template" type="text/template">
       <li class="file">

@@ -9,7 +9,8 @@ option '-v', '--verbose',               'Enable verbose logging for tests'
 
 task 'build', 'Build module and bundle tractor_beam.js', ->
   b = new Bundle
-    entry: 'src/index.coffee'
+    entry:    'src/index.coffee'
+    commonjs: true
     compilers:
       coffee:
         version: 1

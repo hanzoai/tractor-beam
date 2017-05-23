@@ -1,5 +1,3 @@
-var TractorBeam = require('./tractor-beam');
-
 var beam = new TractorBeam('div.tractor-beam');
 
 // Update file list when new files dropped

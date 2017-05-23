@@ -33,7 +33,9 @@
     "url": "https://github.com/hanzo-io/tractor-beam/issues"
   },
   "homepage": "https://github.com/hanzo-io/tractor-beam",
-  "dependencies": {},
+  "dependencies": {
+    "uppie": "^1.0.4"
+  },
   "devDependencies": {
     "bebop": "^1.12.5",
     "browserstacktunnel-wrapper": "^2.0.0",
