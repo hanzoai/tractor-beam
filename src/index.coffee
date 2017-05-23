@@ -1,13 +1,7 @@
 import EventEmitter from  './event-emitter'
+import Uppie        from 'uppie/uppie'
 import polyfill     from './polyfill'
 
-class File
-  constructor: (fd, path) ->
-    @fd        = fd
-    @directory = path
-    @name      = fd.name
-    @path      = path + '/' + fd.name
-    @skipped   = false
 
 class TractorBeam extends EventEmitter
   # `opts` should have a `postPath` for upload to work
@@ -30,10 +24,11 @@ class TractorBeam extends EventEmitter
 
   bind: ->
     # handle DOM events
-    @el.addEventListener 'change',    (e) => @change e
-    @el.addEventListener 'dragleave', (e) => @dragHover e
-    @el.addEventListener 'dragover',  (e) => @dragHover e
-    @el.addEventListener 'drop',      (e) => @drop e
+    @el.addEventListener 'dragleave', (event) => @dragHover event
+    @el.addEventListener 'dragover',  (event) => @dragHover event
+
+    uppie = new Uppie()
+    uppie @el, (event, formData, files) => @drop event, formData, files
 
     # # handle upload event
     # @on 'dropped', (queue) ->
@@ -47,51 +42,19 @@ class TractorBeam extends EventEmitter
     #         @opts.postPath
     #     @upload file postPath
 
-  change: ->
-    # bail if API is unsupported
-    return unless @getFilesAndDirectories?
+  dragHover: (event) ->
+    event.stopPropagation()
+    event.preventDefault()
 
-    # begin by traversing the chosen files and directories
-    @getFilesAndDirectories().then (filesAndDirs) =>
-      @iterateFilesAndDirs filesAndDirs, '/'
+  drop: (event, formData, files) ->
+    console.log arguments
+    return unless files.length
 
-  dragHover: (e) ->
-    e.stopPropagation()
-    e.preventDefault()
+    for file in files
+      @emit 'file', file
+      @queue[file] = path: file
 
-  drop: (e) ->
-    e.stopPropagation()
-    e.preventDefault()
-
-    if not e.dataTransfer.getFilesAndDirectories?
-      @emit 'unsupported'
-      console.error 'Directory drag and drop is unsupported by this browser'
-      return
-
-    e.dataTransfer.getFilesAndDirectories()
-      .then (filesAndDirs) =>
-        @iterateFilesAndDirs filesAndDirs, '/'
-
-  iterateFilesAndDirs: (filesAndDirs, path) ->
-    done = true
-
-    for fd in filesAndDirs
-      if typeof fd.getFilesAndDirectories == 'function'
-        done = false
-        path = fd.path
-
-        # this recursion enables deep traversal of directories
-        fd.getFilesAndDirectories().then (subFilesAndDirs) =>
-          # iterate through files and directories in sub-directory
-          @iterateFilesAndDirs subFilesAndDirs, path
-          return
-      else
-        file = new File fd, path
-        @emit 'file', file
-        @queue[file.path] = file
-
-    if done
-      @emit 'dropped', @queue
+    @emit 'dropped', @queue
 
   add: (filepath) ->
     @queue[filepath].skipped = false
