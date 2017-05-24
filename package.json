@@ -1,6 +1,6 @@
 {
   "name": "tractor-beam",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Directory upload using proposed Directory Upload spec as part of the new FileSystem API.",
   "main": "lib/tractor-beam.js",
   "module": "lib/tractor-beam.mjs",
