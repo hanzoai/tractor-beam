@@ -1,3 +1,5 @@
+<p align="center"><img src=".github/hero.svg" alt="tractor-beam" width="880"></p>
+
 # tractor-beam
 
 [![npm][npm-img]][npm-url]
