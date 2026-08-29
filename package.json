@@ -34,20 +34,20 @@
   },
   "homepage": "https://github.com/hanzo-io/tractor-beam",
   "dependencies": {
-    "uppie": "^1.0.4"
+    "uppie": "^4.1.5"
   },
   "devDependencies": {
-    "bebop": "^1.12.5",
-    "browserstacktunnel-wrapper": "^2.0.0",
-    "coffee-script": "^1.12.6",
-    "connect": "^3.6.2",
-    "sake-bundle": "^0.6.0",
-    "sake-cli": "^0.5.20",
-    "sake-outdated": "^0.1.27",
-    "sake-publish": "^0.1.16",
+    "bebop": "^3.2.3",
+    "browserstacktunnel-wrapper": "^2.0.5",
+    "coffee-script": "^1.12.7",
+    "connect": "^3.7.0",
+    "sake-bundle": "^0.6.15",
+    "sake-cli": "^0.7.3",
+    "sake-outdated": "^0.4.4",
+    "sake-publish": "^0.1.17",
     "sake-version": "^0.1.19",
-    "selenium-standalone": "^6.4.1",
-    "serve-static": "^1.12.3",
-    "webdriverio": "^4.8.0"
+    "selenium-standalone": "^10.0.2",
+    "serve-static": "^2.2.1",
+    "webdriverio": "^9.31.4"
   }
 }
